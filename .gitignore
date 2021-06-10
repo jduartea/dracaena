@@ -2,3 +2,4 @@
 /venv/
 *.pem
 .idea
+.env
