@@ -3,3 +3,5 @@
 *.pem
 .idea
 .env
+*.pyc
+*.pyo
