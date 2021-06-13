@@ -12,7 +12,7 @@ application.register_blueprint(braze, url_prefix="/braze")
 
 @application.route('/')
 def hello_world():
-    return 'Hello World!'
+    return 'Hello You!'
 
 
 if __name__ == '__main__':
