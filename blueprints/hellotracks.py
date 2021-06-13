@@ -2,9 +2,11 @@ import json
 import requests
 import random
 from datetime import date
+from dotenv import dotenv_values
 from flask import Blueprint, jsonify, Response, request
 
 hellotracks = Blueprint(name="hellotracks", import_name=__name__)
+config = dotenv_values(".env")
 
 
 @hellotracks.route('/', methods=['GET'])
@@ -38,7 +40,7 @@ def create_job():
             "type": 0,
             "destinationLat": lat,
             "destinationLng": lon,
-            "destinationText": "Fuel Level Low",
+            "destinationText": config["TEST"],
             "custom_vehicle_id": request.json["data"]["carId"],
             "custom_vehicle_state_id": request.json["data"]["vehicleStateId"],
             "custom_hardware_id": request.json["data"]["hardwareId"],
