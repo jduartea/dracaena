@@ -18,7 +18,7 @@ def test():
     return jsonify(output)
 
 
-@hellotracks.route('/hellotracks/create_job', methods=['POST', 'GET'])
+@hellotracks.route('/create_job', methods=['POST', 'GET'])
 def create_job():
     if request.json["data"]["vehicleStateId"] == 4:
         lat = random.uniform(51.47690572136774, 51.538636920666406)
