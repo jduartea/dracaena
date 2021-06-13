@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, jsonify
 import sys
 
@@ -6,13 +7,19 @@ from blueprints.braze import braze
 
 application = Flask(__name__)
 
+logging.basicConfig(
+    filename='log.log',
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.DEBUG,
+    datefmt='%Y-%m-%d %H:%M:%S')
+
 application.register_blueprint(hellotracks, url_prefix="/hellotracks")
 application.register_blueprint(braze, url_prefix="/braze")
 
 
 @application.route('/')
 def hello_world():
-    return 'Hello You!'
+    return 'It works!'
 
 
 if __name__ == '__main__':
