@@ -9,5 +9,5 @@ config = dotenv_values(".env")
 @wunder.route('/', methods=['POST'])
 def all_events():
     payload = str(request.json)
-    data = {"text": payload}
+    data = {"text": "test from dracaena"}
     requests.post(url=config["SLACK_WEBHOOK_URL"], data=data)
