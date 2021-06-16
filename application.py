@@ -13,6 +13,7 @@ logging.basicConfig(
     level=logging.DEBUG,
     datefmt='%Y-%m-%d %H:%M:%S')
 
+application.register_blueprint(wunder, url_prefix="/wunder")
 application.register_blueprint(hellotracks, url_prefix="/hellotracks")
 application.register_blueprint(braze, url_prefix="/braze")
 
