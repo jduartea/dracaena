@@ -2,6 +2,7 @@ import logging
 from flask import Flask, jsonify
 import sys
 
+from blueprints.wunder import wunder
 from blueprints.hellotracks import hellotracks
 from blueprints.braze import braze
 
