@@ -1,5 +1,5 @@
 import json
-
+from datetime import datetime
 from dotenv import dotenv_values
 from flask import Blueprint, request, Response
 from slack_sdk import WebClient
@@ -27,7 +27,7 @@ def all_events():
                     "fields": [
                         {
                             "type": "mrkdwn",
-                            "text": f"*Timestamp:* {timestamp}"
+                            "text": f"*Timestamp:* {datetime.fromtimestamp(timestamp)} ({timestamp})"
                         },
                         {
                             "type": "mrkdwn",
