@@ -13,17 +13,24 @@ client = WebClient(token=config["SLACKBOT_DRACAENA_TOKEN"])
 
 @wunder.route('', methods=['POST'])
 def all_events():
+    payload = request.json
+    timestamp = payload["timestamp"]
+    event_name = payload["eventName"]
+    data = payload["data"]
+
     try:
         result = client.chat_postMessage(
             channel=config["SLACKBOT_DRACAENA_CHANNEL_ID"],
-            text="Hello world!"
+            text=f"""
+            Timestamp: {timestamp}
+            Event Name: {event_name}
+            """
         )
         print(result)
 
     except SlackApiError as e:
         print(f"Error: {e}")
 
-    payload = request.json
 
     # headers = {'Content-Type': 'application/json'}
     # data = {"text": "```" + json.dumps(payload, indent=4) + "```"}
