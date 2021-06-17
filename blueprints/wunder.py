@@ -1,5 +1,5 @@
 import json
-import requests
+
 from dotenv import dotenv_values
 from flask import Blueprint, request, Response
 from slack_sdk import WebClient
@@ -17,20 +17,35 @@ def all_events():
     timestamp = payload["timestamp"]
     event_name = payload["eventName"]
     data = payload["data"]
-
+    print(config["SLACKBOT_DRACAENA_CHANNEL_ID"])
     try:
         result = client.chat_postMessage(
             channel=config["SLACKBOT_DRACAENA_CHANNEL_ID"],
-            text=f"""
-            Timestamp: {timestamp}
-            Event Name: {event_name}
-            """
+            blocks=[
+                {
+                    "type": "section",
+                    "fields": [
+                        {
+                            "type": "mrkdwn",
+                            "text": f"*Timestamp:* {timestamp}"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": f"*Event Name:* {event_name}"
+                        }
+                    ]
+                }
+            ]
         )
-        print(result)
+
+        client.chat_postMessage(
+            channel=config["SLACKBOT_DRACAENA_CHANNEL_ID"],
+            thread_ts=result["ts"],
+            text=f"```{json.dumps(data, indent=2)}```"
+        )
 
     except SlackApiError as e:
         print(f"Error: {e}")
-
 
     # headers = {'Content-Type': 'application/json'}
     # data = {"text": "```" + json.dumps(payload, indent=4) + "```"}
