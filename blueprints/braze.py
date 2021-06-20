@@ -3,20 +3,9 @@ import logging
 import os
 
 import requests
-from flask import Blueprint, jsonify, request, Response
+from flask import Blueprint, request, Response
 
 braze = Blueprint(name="braze", import_name=__name__)
-
-# TODO: Remove test routes
-@braze.route('', methods=['GET'])
-def home():
-    return os.environ.get("TEST_MESSAGE")
-
-
-@braze.route('/test', methods=['GET'])
-def test():
-    output = {"msg": "I'm the test endpoint from braze."}
-    return jsonify(output)
 
 
 @braze.route('/unsubscribe/<customer_id>', methods=['POST'])

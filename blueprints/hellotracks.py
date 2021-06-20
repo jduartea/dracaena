@@ -1,14 +1,20 @@
+import os
 import random
 from datetime import date
 
+from dotenv import load_dotenv
 from flask import Blueprint, Response, request
 
-from utils.hellotracks import *
+from utils.hellotracks.client import HellotracksClient
 from utils.wunder.client import WunderClient
 
+load_dotenv()
+
 hellotracks = Blueprint(name="hellotracks", import_name=__name__)
+
+ht = HellotracksClient(user=os.environ.get("HELLOTRACKS_USER"), api_key=os.environ.get("HELLOTRACKS_API"))
 wm = WunderClient(api_key=os.environ.get("WUNDER_BACKEND_API_KEY"))
-# TODO: Create Hellotracks client
+
 
 @hellotracks.route('/create_job', methods=['POST', 'GET'])
 def create_job():
@@ -27,7 +33,7 @@ def create_job():
             lat = vehicle.get("lat", 0)
             lng = vehicle.get("lon", 0)
 
-        job = create_job_object(
+        job = ht.create_job_object(
             job_type=0,
             day=int(date.today().strftime('%Y%m%d')),
             destination_lat=lat,
@@ -39,6 +45,6 @@ def create_job():
             }
         )
 
-        create_jobs(job_list=[job])
+        ht.create_jobs(job_list=[job])
 
         return Response(status=200)
