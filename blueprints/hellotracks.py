@@ -26,6 +26,7 @@ def create_job():
     event_name = request.json["eventName"]
     data = request.json["data"]
     if event_name == "backend\\models\\VehicleStateChange::afterInsert" \
+            and data["from"] != "fuel level low" \
             and data["to"] == "fuel level low":
         vehicle_id = data["vehicleId"]
         lat = random.uniform(51.47690572136774, 51.538636920666406)
@@ -36,7 +37,7 @@ def create_job():
             day=int(date.today().strftime('%Y%m%d')),
             destination_lat=lat,
             destination_lng=lon,
-            destination_text="Fuel Level Low!!!",
+            destination_text="Fuel Level Low",
             custom_attributes={
                 "vehicle_id": vehicle_id
             }
