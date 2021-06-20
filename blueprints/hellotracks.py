@@ -6,8 +6,6 @@ from flask import Blueprint, jsonify, Response, request
 from utils.hellotracks import *
 from utils.wunder.client import WunderClient
 
-load_dotenv()
-
 hellotracks = Blueprint(name="hellotracks", import_name=__name__)
 wm = WunderClient(api_key=os.environ.get("WUNDER_BACKEND_API_KEY"))
 
