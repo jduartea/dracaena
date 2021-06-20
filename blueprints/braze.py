@@ -2,9 +2,12 @@ import logging
 import os
 
 import requests
+from dotenv import load_dotenv
 from flask import Blueprint, jsonify, request, Response
 
 braze = Blueprint(name="braze", import_name=__name__)
+
+load_dotenv()
 
 
 @braze.route('/test', methods=['GET'])
