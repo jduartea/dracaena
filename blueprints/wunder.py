@@ -14,6 +14,10 @@ client = WebClient(token=config["SLACKBOT_DRACAENA_TOKEN"])
 @wunder.route('', methods=['POST'])
 def all_events():
     payload = request.json
+
+    # Avoid Citymapper spam
+    if payload["data"]["customerId"] == 2902:
+        return
     timestamp = payload["timestamp"]
     event_name = payload["eventName"]
     data = payload["data"]
@@ -32,6 +36,14 @@ def all_events():
                         {
                             "type": "mrkdwn",
                             "text": f"*Event Name:* {event_name}"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": f"*Customer Id:* {data.get('customerId')}"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": f"*Email:* {data.get('email')}"
                         }
                     ]
                 }
@@ -46,9 +58,5 @@ def all_events():
 
     except SlackApiError as e:
         print(f"Error: {e}")
-
-    # headers = {'Content-Type': 'application/json'}
-    # data = {"text": "```" + json.dumps(payload, indent=4) + "```"}
-    # requests.post(url=config["SLACKBOT_DRACAENA_WEBHOOK_URL"], headers=headers, data=json.dumps(data))
 
     return Response(status=200)
