@@ -1,10 +1,8 @@
-import os
-import requests
 import logging
-from flask import Blueprint, jsonify, request, Response
-from dotenv import load_dotenv
+import os
 
-load_dotenv()  # take environment variables from .env.
+import requests
+from flask import Blueprint, jsonify, request, Response
 
 braze = Blueprint(name="braze", import_name=__name__)
 

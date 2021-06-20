@@ -1,12 +1,10 @@
 import json
 import os
 from datetime import datetime
+
 from flask import Blueprint, request, Response
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-from dotenv import load_dotenv
-
-load_dotenv()  # take environment variables from .env.
 
 wunder = Blueprint(name="wunder", import_name=__name__)
 

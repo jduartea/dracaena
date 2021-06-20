@@ -1,10 +1,13 @@
 import logging
-from flask import Flask, jsonify
-import sys
 
-from blueprints.wunder import wunder
-from blueprints.hellotracks import hellotracks
+from dotenv import load_dotenv
+from flask import Flask
+
 from blueprints.braze import braze
+from blueprints.hellotracks import hellotracks
+from blueprints.wunder import wunder
+
+load_dotenv()  # take environment variables from .env.
 
 application = Flask(__name__)
 

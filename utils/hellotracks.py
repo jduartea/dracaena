@@ -127,9 +127,6 @@ import json
 import os
 
 import requests
-from dotenv import load_dotenv
-
-load_dotenv()  # take environment variables from .env.
 
 ht_user = os.getenv("HELLOTRACKS_USER")
 ht_key = os.getenv("HELLOTRACKS_API")
