@@ -26,7 +26,7 @@ def respond(customer_id):
         payload = {"newsletterEnabled": False}
         headers = {
             'Content-Type': 'application/json',
-            'Authorization': f'Bearer {os.getenv("WUNDER_API")}'
+            'Authorization': f'Bearer {os.getenv("WUNDER_BACKEND_API_KEY")}'
         }
         requests.request("PATCH", url, headers=headers, data=jsonify(payload))
         logging.info("Subscription disabled for customer_id " + customer_id)
