@@ -1,9 +1,9 @@
-import json
-import requests
 import random
 from datetime import date
+
 from dotenv import dotenv_values
 from flask import Blueprint, jsonify, Response, request
+
 from utils.hellotracks import *
 
 hellotracks = Blueprint(name="hellotracks", import_name=__name__)
@@ -29,6 +29,7 @@ def create_job():
 
         job = create_job_object(
             job_type=0,
+            day=int(date.today().strftime('%Y%m%d')),
             destination_lat=lat,
             destination_lng=lon,
             destination_text="Fuel Level Low!",
@@ -38,6 +39,6 @@ def create_job():
             }
         )
 
-        create_jobs(job_list=list(job))
+        create_jobs(job_list=[job])
 
         return Response(status=200)
