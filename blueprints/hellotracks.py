@@ -4,10 +4,12 @@ from datetime import date
 from flask import Blueprint, jsonify, Response, request
 
 from utils.hellotracks import *
+from utils.wunder.client import WunderClient
 
 load_dotenv()
 
 hellotracks = Blueprint(name="hellotracks", import_name=__name__)
+wm = WunderClient(api_key=os.environ.get("WUNDER_BACKEND_API_KEY"))
 
 
 @hellotracks.route('/', methods=['GET'])
@@ -32,6 +34,8 @@ def create_job():
         lat = random.uniform(51.47690572136774, 51.538636920666406)
         lon = random.uniform(-0.18411568297429584, -0.07517897752823008)
 
+        vehicle = wm.get_vehicle(vehicle_id=vehicle_id)
+
         job = create_job_object(
             job_type=0,
             day=int(date.today().strftime('%Y%m%d')),
@@ -39,7 +43,8 @@ def create_job():
             destination_lng=lon,
             destination_text="Fuel Level Low",
             custom_attributes={
-                "vehicle_id": vehicle_id
+                "vehicle_id": vehicle_id,
+                "mileage": vehicle.get("mileage")
             }
         )
 
