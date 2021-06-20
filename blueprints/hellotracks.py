@@ -16,7 +16,7 @@ ht = HellotracksClient(user=os.environ.get("HELLOTRACKS_USER"), api_key=os.envir
 wm = WunderClient(api_key=os.environ.get("WUNDER_BACKEND_API_KEY"))
 
 
-@hellotracks.route('/create_job', methods=['POST', 'GET'])
+@hellotracks.route('/create_job', methods=['POST'])
 def create_job():
     event_name = request.json["eventName"]
     data = request.json["data"]
