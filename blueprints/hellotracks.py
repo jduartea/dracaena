@@ -1,12 +1,9 @@
 import random
 from datetime import date
 
-from dotenv import load_dotenv
 from flask import Blueprint, jsonify, Response, request
 
 from utils.hellotracks import *
-
-load_dotenv()
 
 hellotracks = Blueprint(name="hellotracks", import_name=__name__)
 
