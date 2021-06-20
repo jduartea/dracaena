@@ -20,7 +20,7 @@ def test():
 
 @braze.route('/unsubscribe/<customer_id>', methods=['POST'])
 def respond(customer_id):
-    if request.headers['token'] == 'tvkXDPGdPp6eMhW3bZMzFbdpCstA33thFg28RAmtqrhJhBrN58':
+    if request.headers['token'] == os.environ.get("BRAZE_UNSUBSCRIBE_TOKEN"):
         url = "https://humanforest.backend.fleetbird.eu/api/v2/customers/" + customer_id
 
         payload = {"newsletterEnabled": False}
