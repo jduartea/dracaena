@@ -1,13 +1,13 @@
 import logging
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from flask import Flask
 
 from blueprints.wunder import wunder
 from blueprints.braze import braze
 from blueprints.hellotracks import hellotracks
 
-load_dotenv()  # take environment variables from .env.
+# load_dotenv()  # take environment variables from .env.
 
 application = Flask(__name__)
 

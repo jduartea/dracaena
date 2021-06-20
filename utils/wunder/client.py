@@ -24,8 +24,7 @@ class WunderClientError(Exception):
 
 class WunderInternalServerError(WunderClientError):
     """
-    Used for Wunder API responses where response code is of type 5XX suggesting
-    Wunder side server errors.
+    Used for Wunder API responses where response code is of type 5XX suggesting WunderMobility side server errors.
     """
 
     pass
