@@ -36,7 +36,7 @@ class HellotracksClient(object):
     """Client for Hellotracks API."""
 
     def __init__(self, user, api_key, api_url=None):
-        self.user = user,
+        self.user = user
         self.api_key = api_key
         self.api_url = api_url or DEFAULT_API_URL
         self.session = requests.Session()

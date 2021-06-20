@@ -3,7 +3,10 @@ import logging
 import os
 
 import requests
+from dotenv import load_dotenv
 from flask import Blueprint, request, Response
+
+load_dotenv()
 
 braze = Blueprint(name="braze", import_name=__name__)
 
