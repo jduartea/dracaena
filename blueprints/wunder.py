@@ -18,7 +18,7 @@ def all_events():
     payload = request.json
 
     # Avoid Citymapper spam
-    if payload["data"]["customerId"] == 2902:
+    if payload["data"].get("customerId") == 2902:
         return
     timestamp = payload["timestamp"]
     event_name = payload["eventName"]
