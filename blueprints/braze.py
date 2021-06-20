@@ -1,10 +1,12 @@
+import os
 import requests
 import logging
-from dotenv import dotenv_values
 from flask import Blueprint, jsonify, request, Response
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
 
 braze = Blueprint(name="braze", import_name=__name__)
-config = dotenv_values(".env")
 
 
 @braze.route('/test', methods=['GET'])
@@ -21,7 +23,7 @@ def respond(customer_id):
         payload = {"newsletterEnabled": False}
         headers = {
             'Content-Type': 'application/json',
-            'Authorization': f'Bearer {config["WUNDER_API"]}'
+            'Authorization': f'Bearer {os.getenv("WUNDER_API")}'
         }
         requests.request("PATCH", url, headers=headers, data=jsonify(payload))
         logging.info("Subscription disabled for customer_id " + customer_id)

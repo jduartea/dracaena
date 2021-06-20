@@ -1,14 +1,16 @@
 import json
+import os
 from datetime import datetime
-from dotenv import dotenv_values
 from flask import Blueprint, request, Response
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
 
 wunder = Blueprint(name="wunder", import_name=__name__)
-config = dotenv_values(".env")
 
-client = WebClient(token=config["SLACKBOT_DRACAENA_TOKEN"])
+client = WebClient(token=os.getenv("SLACKBOT_DRACAENA_TOKEN"))
 
 
 @wunder.route('', methods=['POST'])
@@ -21,10 +23,10 @@ def all_events():
     timestamp = payload["timestamp"]
     event_name = payload["eventName"]
     data = payload["data"]
-    print(config["SLACKBOT_DRACAENA_CHANNEL_ID"])
+
     try:
         result = client.chat_postMessage(
-            channel=config["SLACKBOT_DRACAENA_CHANNEL_ID"],
+            channel=os.getenv("SLACKBOT_DRACAENA_CHANNEL_ID"),
             blocks=[
                 {
                     "type": "section",
@@ -51,7 +53,7 @@ def all_events():
         )
 
         client.chat_postMessage(
-            channel=config["SLACKBOT_DRACAENA_CHANNEL_ID"],
+            channel=os.getenv("SLACKBOT_DRACAENA_CHANNEL_ID"),
             thread_ts=result["ts"],
             text=f"```{json.dumps(data, indent=2)}```"
         )
