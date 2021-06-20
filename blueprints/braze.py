@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 
@@ -28,7 +29,7 @@ def respond(customer_id):
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {os.getenv("WUNDER_BACKEND_API_KEY")}'
         }
-        requests.request("PATCH", url, headers=headers, data=jsonify(payload))
+        requests.patch(url=url, headers=headers, data=json.dumps(payload))
         logging.info("Subscription disabled for customer_id " + customer_id)
         return Response(status=200)
     else:
