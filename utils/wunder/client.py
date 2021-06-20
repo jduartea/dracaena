@@ -1,5 +1,5 @@
 import requests
-from errors import WunderInternalServerError
+from .errors import WunderInternalServerError
 
 DEFAULT_API_URL = "https://humanforest.backend.fleetbird.eu/api/v2"
 VEHICLES_ENDPOINT = "/vehicles"
