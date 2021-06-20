@@ -7,7 +7,7 @@ from flask import Blueprint, jsonify, request, Response
 
 braze = Blueprint(name="braze", import_name=__name__)
 
-
+# TODO: Remove test routes
 @braze.route('', methods=['GET'])
 def home():
     return os.environ.get("TEST_MESSAGE")
