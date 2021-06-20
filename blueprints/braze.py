@@ -11,6 +11,7 @@ braze = Blueprint(name="braze", import_name=__name__)
 def home():
     return os.environ.get("TEST_MESSAGE")
 
+
 @braze.route('/test', methods=['GET'])
 def test():
     output = {"msg": "I'm the test endpoint from braze."}
