@@ -8,7 +8,7 @@ from slack_sdk.errors import SlackApiError
 
 wunder = Blueprint(name="wunder", import_name=__name__)
 
-client = WebClient(token=os.getenv("SLACKBOT_DRACAENA_TOKEN"))
+client = WebClient(token=os.environ.get("SLACKBOT_DRACAENA_TOKEN"))
 
 
 @wunder.route('', methods=['POST'])
