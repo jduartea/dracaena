@@ -38,7 +38,7 @@ def create_job():
             day=int(date.today().strftime('%Y%m%d')),
             destination_lat=lat,
             destination_lng=lng,
-            destination_text="Fuel Level Low",
+            destination_name="Fuel Level Low",
             custom_attributes={
                 "vehicle_id": vehicle_id,
                 "mileage": vehicle.get("mileage")
