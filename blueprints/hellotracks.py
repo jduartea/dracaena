@@ -2,17 +2,15 @@ import os
 import random
 from datetime import date
 
-from dotenv import load_dotenv
 from flask import Blueprint, Response, request
 
 from utils.hellotracks.client import HellotracksClient
 from utils.wunder.client import WunderClient
 
-load_dotenv()
-
 hellotracks = Blueprint(name="hellotracks", import_name=__name__)
 
-ht = HellotracksClient(user=os.environ.get("HELLOTRACKS_USER"), api_key=os.environ.get("HELLOTRACKS_API"))
+ht = HellotracksClient(user=os.environ.get("HELLOTRACKS_USER"),
+                       api_key=os.environ.get("HELLOTRACKS_API"))
 wm = WunderClient(api_key=os.environ.get("WUNDER_BACKEND_API_KEY"))
 
 
@@ -20,6 +18,7 @@ wm = WunderClient(api_key=os.environ.get("WUNDER_BACKEND_API_KEY"))
 def create_job():
     event_name = request.json["eventName"]
     data = request.json["data"]
+
     if event_name == "backend\\models\\VehicleStateChange::afterInsert" \
             and data["from"] != "fuel level low" and data["to"] == "fuel level low":
 
