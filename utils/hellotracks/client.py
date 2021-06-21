@@ -42,7 +42,7 @@ class HellotracksClient(object):
         self.session = requests.Session()
         self.request_url = ""
 
-    def _api_call(self, method: str, endpoint: str, data: dict) -> requests.Response:
+    def _api_call(self, method: str, endpoint: str, data: dict = None) -> requests.Response:
         """
         Call Hellotracks API via HTTP request.
 
@@ -73,12 +73,15 @@ class HellotracksClient(object):
     def get_all_jobs_for_day(self, worker: str = "*", **kwargs) -> requests.Response:
         """Get jobs from Hellotracks.
 
-        :param worker: Worker value (email). To retrieve jobs that are not assigned to a worker, set worker:"". To request all jobs for all workers for a specific date, set worker:"*" (default).
-        :key day: (optional) Day in YYYYMMDD format as int. Defaults to today. To retrieve jobs with no date assigned, set day:0.
+        :param worker: Worker value (email). To retrieve jobs that are not assigned to a worker, set worker:"".
+            To request all jobs for all workers for a specific date, set worker:"*" (default).
+        :key day: (optional) Day in YYYYMMDD format as int. Defaults to today.
+            To retrieve jobs with no date assigned, set day:0.
         :key team: (optional) Filter to only request jobs for a specific team.
         :key int order_id: (optional) Filter to request a specific job.
         :key order_ids: (optional) Filter to request multiple specific jobs.
-        :key progress_success: (optional) Filter to only retrieve jobs that are marked as successfully completed. For this, set the value to 1, else set it either to 0 or do not set the field at all.
+        :key progress_success: (optional) Filter to only retrieve jobs that are marked as successfully completed.
+            For this, set the value to 1, else set it either to 0 or do not set the field at all.
         :return: Response object
         """
 
@@ -143,7 +146,7 @@ class HellotracksClient(object):
 
         :param job_id_list: A list that contains job_id to be deleted
         :param notify: (optional) Set to True (default) if you want to generate a notification in case the progress
-            |  status of this job changed. To omit creating notifications for this job modification, set notify: False.
+            status of this job changed. To omit creating notifications for this job modification, set notify: False.
         :return: Response object
         """
 
@@ -173,8 +176,8 @@ class HellotracksClient(object):
             }
 
         :param modified_jobs: A dictionary that contains jobs and attributes to be modified.
-        :param notify: (optional) Set to True (default) if you want to generate a notification in case the progress status
-            of this job changed. To omit creating notifications for this job modification, set notify: False.
+        :param notify: (optional) Set to True (default) if you want to generate a notification in case the progress
+            status of this job changed. To omit creating notifications for this job modification, set notify: False.
         :return: Response object
         """
 
@@ -221,6 +224,155 @@ class HellotracksClient(object):
         }
 
         response = self._api_call(method="POST", endpoint=CREATE_JOBS_ENDPOINT, data=data)
+        return response
+
+    def distribute_jobs(self, job_id_list: list, regions: int = 1, optimize: int = 1) -> requests.Response:
+        """Distribute jobs in Hellotracks.
+
+        :param job_id_list: A list that contains job_id to be deleted
+        :param regions: Regions or clusters to distribute jobs.
+        :param optimize: Set optimize:1 for optimizing for even cluster sizes, set optimize to 2 to allow uneven cluster
+            sizes optimizing for distance.
+        :return: Response object
+        """
+
+        data = {
+            "jobs": {job_id: {} for job_id in job_id_list},
+            "regions": regions,
+            "optimize": optimize
+        }
+        response = self._api_call(method="POST", endpoint=DISTRIBUTE_JOBS_ENDPOINT, data=data)
+        return response
+
+    def optimize_route(self, day: int, worker: str = "*") -> requests.Response:
+        """Optimize route for worker
+
+        You can optimize a route for a person per day. The optimization will be applied immediately (no saving or
+        editing necessary) and the worker will be notified about the new order of jobs if the day field is set to
+        today’s value. The optimization is distance based and currently does not respect time windows and priorities.
+        You can choose to include the company as start and finish locations to take into account for optimizing the
+        route.
+
+        :param day: Day in YYYYMMDD format as int. Defaults to today. To retrieve jobs with no date assigned, set day:0.
+        :param worker: Worker account (email)
+        :return: Response object
+        """
+
+        data = {
+            "day": day,
+            "account": worker
+        }
+
+        response = self._api_call(method="POST", endpoint=OPTIMIZE_ROUTE_ENDPOINT, data=data)
+        return response
+
+    def get_accounts(self) -> requests.Response:
+        """Retrieve members.
+
+        :return: Response object
+        """
+
+        response = self._api_call(method="POST", endpoint=GET_ACCOUNTS_ENDPOINT)
+        return response
+
+    def edit_account(self,
+                     worker: str,
+                     status_label: str = None,
+                     phone: str = None,
+                     email: str = None,
+                     name: str = None,
+                     radius: int = None,
+                     address: str = None,
+                     postalcode: str = None,
+                     city: str = None,
+                     state: str = None,
+                     country: str = None,
+                     country_code: str = None,
+                     vehicle_capacity: int = None,
+                     route_start_lat: float = None,
+                     route_start_lng: float = None,
+                     route_end_lat: float = None,
+                     route_end_lng: float = None
+                     ) -> requests.Response:
+        """Edit fields of members.
+
+        :param worker: Worker account (email)
+        :param status_label: Worker status
+        :param phone: Worker phone
+        :param email: Worker email
+        :param name: Worker name
+        :param radius: Radius
+        :param address: Address
+        :param postalcode: Postcode
+        :param city: City
+        :param state: State
+        :param country: Country
+        :param country_code: Country code
+        :param vehicle_capacity: Vehicle capacity
+        :param route_start_lat: Latitude of route's starting point
+        :param route_start_lng: Longitude of route's starting point
+        :param route_end_lat: Latitude of route's ending point
+        :param route_end_lng: Longitude of route's ending point
+        :return: Response object
+        """
+
+        data = {
+            "status_label": status_label,
+            "phone": phone,
+            "email": email,
+            "name": name,
+            "radius": radius,
+            "address": address,
+            "postalcode": postalcode,
+            "city": city,
+            "state": state,
+            "country": country,
+            "country_code": country_code,
+            "vehicle_capacity": vehicle_capacity,
+            "route_start_lat": route_start_lat,
+            "route_start_lng": route_start_lng,
+            "route_end_lat": route_end_lat,
+            "route_end_ln": route_end_lng
+        }
+
+        data_without_none = {k: v for k, v in data.items() if v is not None}
+        data.clear()
+        data.update(data_without_none)
+        data.update({"account": worker})
+
+        response = self._api_call(method="POST", endpoint=EDIT_ACCOUNT_ENDPOINT, data=data)
+        return response
+
+    def create_account(self,
+                       name: str,
+                       username: str,
+                       password: str = None,
+                       role: str = "worker",
+                       phone: str = None
+                       ) -> requests.Response:
+        """Create new member.
+
+        :param name: Name of worker.
+        :param username: Email of worker.
+        :param password: (Optional) If not set, random password will be used.
+        :param role: (Optional) Default is "worker". Other options: "operator" or "administrator".
+        :param phone: (Optional) Phone number.
+        :return: Response object
+        """
+
+        data = {
+            "name": name,
+            "username": username,
+            "password": password,
+            "role": role,
+            "phone": phone
+        }
+
+        data_without_none = {k: v for k, v in data.items() if v is not None}
+        data.clear()
+        data.update(data_without_none)
+
+        response = self._api_call(method="POST", endpoint=CREATE_ACCOUNT_ENDPOINT, data=data)
         return response
 
     @staticmethod
