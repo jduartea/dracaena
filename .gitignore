@@ -1,6 +1,7 @@
 # Project exclude paths
 *.pem
 .idea
+snippets/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,4 +1,7 @@
+import json
+
 import requests
+
 from .errors import WunderInternalServerError
 
 DEFAULT_API_URL = "https://humanforest.backend.fleetbird.eu/api/v2"
@@ -33,8 +36,25 @@ class WunderClient(object):
         :return: Vehicle data
         :rtype: dict
         """
+
         self.request_url = f"{self.api_url}/vehicles/{vehicle_id}"
         return self._get_request().json().get("data")
+
+    def get_user_by_email(self, email: str) -> dict:
+        """Get user data given an email
+
+        :param email: User email
+        :return: User data
+        """
+
+        self.request_url = f"{self.api_url}/customers/search"
+        payload = {
+            "email": {
+                "$eq": f"{email}"
+            }
+        }
+
+        return self._post_request(payload=json.dumps(payload)).json().get("data")[0]
 
     def _get_request(self):
         """
@@ -49,7 +69,7 @@ class WunderClient(object):
 
         return response
 
-    def _post_request(self, payload: dict):
+    def _post_request(self, payload):
         """
         :rtype: requests.Response
         """
