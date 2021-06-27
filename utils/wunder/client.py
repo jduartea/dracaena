@@ -1,5 +1,6 @@
 import json
 
+from urllib.parse import unquote
 import requests
 
 from .errors import WunderInternalServerError
@@ -50,11 +51,15 @@ class WunderClient(object):
         self.request_url = f"{self.api_url}/customers/search"
         payload = {
             "email": {
-                "$eq": f"{email}"
+                "$eq": f"{unquote(email)}"
             }
         }
-
-        return self._post_request(payload=json.dumps(payload)).json().get("data")[0]
+        response = self._post_request(payload=json.dumps(payload))
+        print(response.request.method)
+        print(response.request.headers)
+        print(response.request.body)
+        print(response.request.url)
+        return response.json().get("data")[0]
 
     def _get_request(self):
         """
@@ -73,7 +78,10 @@ class WunderClient(object):
         """
         :rtype: requests.Response
         """
-        headers = {"Authorization": f"Bearer {self.api_key}"}
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
 
         response = self.session.post(
             url=self.request_url,
