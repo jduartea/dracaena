@@ -23,7 +23,7 @@ application.register_blueprint(dixa, url_prefix="/dixa")
 
 
 @application.route("/")
-def test():
+def test_endpoint   ():
     return os.environ.get("TEST_MESSAGE")
 
 
