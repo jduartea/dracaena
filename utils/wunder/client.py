@@ -53,12 +53,8 @@ class WunderClient(object):
                 "$eq": f"{email}"
             }
         }
-        response = self._post_request(payload=json.dumps(payload))
-        print(response.request.method)
-        print(response.request.headers)
-        print(response.request.body)
-        print(response.request.url)
-        return response.json().get("data")[0]
+
+        return self._post_request(payload=json.dumps(payload)).json().get("data")[0]
 
     def _get_request(self):
         """
