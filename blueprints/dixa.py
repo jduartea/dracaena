@@ -17,11 +17,29 @@ def get_user_data():
 
         user_data = wm.get_user_by_email(user_email)
         r = {
-            "email_query": user_email,
+            "customer_id": user_data.get("customerId"),
             "first_name": user_data.get("firstName"),
             "last_name": user_data.get("lastName"),
-            "customer_reference": user_data.get("customerReference")
+            "customer_reference": user_data.get("customerReference"),
+            "birth_date": user_data.get("birthDate"),
+            "street": user_data.get("street"),
+            "street_additional": user_data.get("street_additional"),
+            "house_number": user_data.get("houseNumber"),
+            "zip_code": user_data.get("zipCode"),
+            "city": user_data.get("city"),
+            "country": user_data.get("country"),
+            "blocked": user_data.get("blocked"),
+            "registration_date": user_data.get("registrationDate"),
+            "activation_date": user_data.get("activationDate")
         }
+
+        if user_data.get("gender") == 1:
+            r["gender"] = "Male"
+        elif user_data.get("gender") == 1:
+            r["gender"] = "Female"
+        else:
+            r["gender"] = "Unknown"
+
         return r
 
     else:
