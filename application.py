@@ -22,10 +22,5 @@ application.register_blueprint(braze, url_prefix="/braze")
 application.register_blueprint(dixa, url_prefix="/dixa")
 
 
-@application.route("/")
-def test_endpoint   ():
-    return os.environ.get("TEST_MESSAGE")
-
-
 if __name__ == '__main__':
     application.run(host="0.0.0.0")
