@@ -1,4 +1,5 @@
 import logging
+import os
 
 from flask import Flask
 
@@ -19,6 +20,12 @@ application.register_blueprint(wunder, url_prefix="/wunder")
 application.register_blueprint(hellotracks, url_prefix="/hellotracks")
 application.register_blueprint(braze, url_prefix="/braze")
 application.register_blueprint(dixa, url_prefix="/dixa")
+
+
+@application.route("/")
+def test():
+    return os.environ.get("TEST_MESSAGE")
+
 
 if __name__ == '__main__':
     application.run(host="0.0.0.0")
